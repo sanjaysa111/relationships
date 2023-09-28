@@ -67,4 +67,54 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+
+    //has one of many relationship
+    public function latestPost(): HasOne
+    {
+        return $this->hasOne(Post::class)->latestOfMany();
+    }
+
+    public function oldestPost(): HasOne
+    {
+        return $this->hasOne(Post::class)->oldestOfMany();
+    }
+
+    /**
+     * Get the user's orders.
+     */
+    // public function orders(): HasMany
+    // {
+    //     return $this->hasMany(Order::class);
+    // }
+
+    /**
+     * Get the user's samllest order.
+     */
+    // public function samllestOrder(): HasOne
+    // {
+    //     return $this->hasOne(Order::class)->ofMany('price', 'min');
+    // }
+
+    /**
+     * Get the user's largest order.
+     * [Converting "Many" Relationships To Has One Relationships]
+     */
+    // public function largestOrder(): HasOne
+    // {
+    //     return $this->orders()->one()->ofMany('price', 'max');
+    // }
+
+    /**
+     * Get the current pricing for the product.
+     */
+    // public function currentPricing(): HasOne
+    // {
+    //     return $this->hasOne(Price::class)->ofMany([
+    //         'published_at' => 'max',
+    //         'id' => 'max',
+    //     ], function (Builder $query) {
+    //         $query->where('published_at', '<', now());
+    //     });
+    // }
 }
