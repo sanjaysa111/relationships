@@ -3,13 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Role;
 use App\Models\Phone;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -117,4 +119,21 @@ class User extends Authenticatable
     //         $query->where('published_at', '<', now());
     //     });
     // }
+
+
+    /**
+     * [The roles that belong to the user.]
+     *
+     * @return BelongsToMany
+     * 
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id')->withTimestamps();
+
+        //Customizing The pivot Attribute Name
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id')
+                ->as('author')
+                ->withTimestamps();
+    }
 }
